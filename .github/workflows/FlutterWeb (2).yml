@@ -7,7 +7,7 @@ on:
       flutterVersion:
         description: 'Flutter SDK version'
         required: false
-        default: '3.19.6'
+        default: '3.22.0'
 
 jobs:
   build-web:
@@ -26,7 +26,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: ${{ github.event.inputs.flutterVersion || '3.19.6' }}
+          flutter-version: ${{ github.event.inputs.flutterVersion || '3.22.0' }}
 
       - name: Enable Flutter Web
         run: flutter config --enable-web
@@ -42,26 +42,15 @@ jobs:
         run: |
           flutter pub get
           flutter doctor
-        working-directory: budget_simple
+        working-directory: simple_live_app
 
       - name: Build Web App
         run: flutter build web --release
-        working-directory: budget_simple
+        working-directory: simple_live_app
 
       - name: Upload Web Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Web Build
-          path: budget_simple/build/web/
+          path: simple_live_app/build/web/
           retention-days: 14
-
-      - name: Deploy to GitHub Pages
-        if: ${{ github.ref == 'refs/heads/main' }}
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: budget_simple/build/web
-          publish_branch: gh-pages
-          force_orphan: true
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
