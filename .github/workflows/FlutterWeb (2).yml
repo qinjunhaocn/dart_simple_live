@@ -28,10 +28,10 @@ jobs:
           channel: stable
           flutter-version: ${{ github.event.inputs.flutterVersion || '3.22.0' }}
 
-      - name: Enable Flutter Web
-        run: |
-         flutter config --enable-web
-         flutter create . --platforms web
+#      - name: Enable Flutter Web
+#        run: |
+#         flutter config --enable-web
+#         flutter create . --platforms web
 
       - name: Cache Flutter dependencies
         uses: actions/cache@v3
